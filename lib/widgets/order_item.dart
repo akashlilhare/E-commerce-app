@@ -19,6 +19,7 @@ class _OrderItemState extends State<OrderItem> {
   @override
   Widget build(BuildContext context) {
     return Card(
+
       margin: EdgeInsets.all(10),
       child: Column(
         children: <Widget>[
