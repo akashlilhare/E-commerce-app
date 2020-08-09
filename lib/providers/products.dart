@@ -40,6 +40,10 @@ class Products with ChangeNotifier {
 //    ),
   ];
 
+  final String authToken;
+  final String userId;
+  Products(this.authToken, this._items, this.userId);
+
   List<Product> get favoriteItems {
     return _items.where((prodItem) => prodItem.isFavorite).toList();
   }
@@ -52,11 +56,15 @@ class Products with ChangeNotifier {
     return _items.firstWhere((prod) => prod.id == id);
   }
 
-  Future<void> fetchAndSetProducts() async {
-    const url = 'https://shop-app-66c2a.firebaseio.com/products.json';
+  Future<void> fetchAndSetProducts([bool filterByUser = false]) async {
+  final  filterString = filterByUser ? 'orderBy="creatorId"&equalTo="$userId"' : '';
+    final url = 'https://shop-app-66c2a.firebaseio.com/products.json?auth=$authToken&$filterString"';
     try {
       final responce = await http.get(url);
       final extractedData = json.decode(responce.body) as Map<String, dynamic>;
+      if(extractedData == null) {
+        return;
+      }
       final List<Product> loadedProducts = [];
       extractedData.forEach((prodId, prodData) {
         loadedProducts.add(Product(
@@ -75,7 +83,7 @@ class Products with ChangeNotifier {
   }
 
   Future<void> addProduct(Product product) async {
-    const url = 'https://shop-app-66c2a.firebaseio.com/products.json';
+    final url = 'https://shop-app-66c2a.firebaseio.com/products.json?auth=$authToken';
     try {
       final response = await http.post(url,
           body: json.encode({
@@ -83,7 +91,8 @@ class Products with ChangeNotifier {
             'description': product.description,
             'imageUrl': product.imageUrl,
             'price': product.price,
-            'isFavorite': product.isFavorite
+            'isFavorite': product.isFavorite,
+            'creatorId' : userId,
           }));
       final newProduct = Product(
           title: product.title,
@@ -104,7 +113,7 @@ class Products with ChangeNotifier {
   Future<void> updateProduct(String id, Product newProduct) async {
     final prodIndex = _items.indexWhere((prod) => prod.id == id);
     if (prodIndex >= 0) {
-      final url = 'https://shop-app-66c2a.firebaseio.com/products/$id.json';
+      final url = 'https://shop-app-66c2a.firebaseio.com/products/$id.json?auth=$authToken';
       await http.patch(url,
           body: json.encode({
             'title': newProduct.title,
@@ -120,7 +129,7 @@ class Products with ChangeNotifier {
   }
 
   Future deleteProduct(String id) async {
-    final url = 'https://shop-app-66c2a.firebaseio.com/products/$id.json';
+    final url = 'https://shop-app-66c2a.firebaseio.com/products/$id.jsonauth=$authToken';
     final existingProductIndex =
         _items.indexWhere((element) => element.id == id);
     var existingProduct = _items[existingProductIndex];

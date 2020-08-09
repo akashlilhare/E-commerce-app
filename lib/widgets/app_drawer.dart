@@ -1,18 +1,24 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../screens/cart_screen.dart';
 import '../screens/orders_screen.dart';
 import '../screens/user_product.dart';
+import '../providers/auth.dart';
+
 class AppDrawer extends StatelessWidget {
   static const routeName = 'app-drawer';
 
   @override
   Widget build(BuildContext context) {
-    return Drawer(elevation: 5,
+    return Drawer(
+      elevation: 5,
       child: Column(
         children: <Widget>[
           ClipRRect(
-            borderRadius: BorderRadius.only(bottomRight: Radius.circular(50), bottomLeft: Radius.circular(0)),
+            borderRadius: BorderRadius.only(
+                bottomRight: Radius.circular(50),
+                bottomLeft: Radius.circular(0)),
             child: Container(
               height: 150,
               child: AppBar(
@@ -22,8 +28,9 @@ class AppDrawer extends StatelessWidget {
               ),
             ),
           ),
-
-          SizedBox(height: 20,),
+          SizedBox(
+            height: 20,
+          ),
           Card(
             elevation: 10,
             child: ListTile(
@@ -34,7 +41,6 @@ class AppDrawer extends StatelessWidget {
               },
             ),
           ),
-
           Card(
             elevation: 10,
             child: ListTile(
@@ -46,7 +52,6 @@ class AppDrawer extends StatelessWidget {
               },
             ),
           ),
-
           Card(
             elevation: 10,
             child: ListTile(
@@ -54,19 +59,36 @@ class AppDrawer extends StatelessWidget {
               title: Text('Orders'),
               onTap: () {
                 Navigator.of(context)
-                    .pushReplacementNamed(OrderScreen.routeName);
+                    .pushReplacementNamed(OrdersScreen.routeName);
+//
+//                Navigator.of(context).pushReplacement(
+//                  CustomRoute(
+//                    builder: (ctx) => OrdersScreen(),
+//                  ),
+//                );
               },
             ),
           ),
-
           Card(
-    elevation: 10,
+            elevation: 10,
             child: ListTile(
               leading: Icon(Icons.edit),
               title: Text('Manage Products'),
               onTap: () {
                 Navigator.of(context)
                     .pushReplacementNamed(UserProduct.routeName);
+              },
+            ),
+          ),
+          Card(
+            elevation: 10,
+            child: ListTile(
+              leading: Icon(Icons.exit_to_app),
+              title: Text('Logout'),
+              onTap: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pushReplacementNamed('/');
+                Provider.of<Auth>(context).logout();
               },
             ),
           ),
