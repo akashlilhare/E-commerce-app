@@ -72,6 +72,7 @@ class Auth with ChangeNotifier {
     return _authenticate(email, password, 'signInWithPassword');
   }
 
+
   Future<bool> tryAutoLogin() async {
     final prefs = await SharedPreferences.getInstance();
     if(!prefs.containsKey('userData')){
