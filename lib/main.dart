@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop/new.dart';
+
 import 'package:shop/screens/auth_screen.dart';
 
 import './screens/orders_screen.dart';
@@ -63,6 +63,7 @@ class MyApp extends StatelessWidget {
                   ? ProductsOverviewScreen()
                   : FutureBuilder(
                       future: auth.tryAutoLogin(),
+                      // ignore: non_constant_identifier_names
                       builder: (ctx, Snapshot) => Snapshot.connectionState == ConnectionState.waiting? SplashScreen() : AuthScreen()),
               routes: {
      //            '/': (ctx) =>  New(),
