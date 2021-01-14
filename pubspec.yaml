@@ -76,6 +76,4 @@ flutter:
         - asset: assets/fonts/Anton-Regular.ttf
 
 
-    #
-  # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/custom-fonts/#from-packages
+ 
