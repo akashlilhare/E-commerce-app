@@ -13,7 +13,7 @@
 1. Clone this repository
 
   ```
-  git clone https://github.com/akashlilhare/news_app.git
+  git clone https://github.com/akashlilhare/E-commerce-app.git
   ```
 
 2. Set current working directory to sudoku
